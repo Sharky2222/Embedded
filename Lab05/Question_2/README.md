@@ -15,3 +15,7 @@ USER INSTRUCTIONS:
 	line 17:	Sets the duty cycle or the lower bound of the signal.
 	line 18:	Allows output to be reset/set when TAR reaches TACCR1 it is reset, and set when TAR reaches TACCR0.
 	line 22-24:	Changes the output of P1OUT for P1.6 to output the PWM signal.
+
+Overview:
+	Implements a software PWM signal at a period of 500ms and a duty cycle of 10%. This PWM signal uses the SMCLK clock with a divider of 8. To achieve the desired 
+	period, the timer control register is used. The TACCR0 is used to match the desired period and the TACCR1 is used to match the desired duty cycle. 

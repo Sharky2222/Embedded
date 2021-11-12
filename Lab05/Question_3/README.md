@@ -24,6 +24,7 @@ USER INSTRUCTIONS:
 	line 36:	Sets the output of P1.6 to low.
 	line 37:	Resets the interrupt flag.
 
-Note:
-	The use of two timer vectors is being used to generate the PWM signal. One vector sets the signal to high on an interrupt 
-	and the other sets the signal to low on an interrupt.
+Overview:
+	The use of two timer vectors is being used to generate the PWM signal which is considered as a hardware implementation. One vector sets the signal to high on an interrupt 
+	and the other sets the signal to low on an interrupt. The SMCLK clock is being used with a divider of 8. The TACCR0 is used to help set the period and the TACCR1 is used to help set the duty cycle.
+	The capture compare interrupts are used to help generate the PWM signal to P1.6. 
