@@ -1,8 +1,12 @@
 
 PROJECT TITLE:                      Lab05 
+
 PURPOSE OF PROJECT:                 To generate a PWM signal at a period of 250ms and a duty cycle of 20%
+
 VERSION or DATE:                    11/10/2021
+
 AUTHORS:                            Nikolas Figueroa
+
 USER INSTRUCTIONS:                  
 
 	line 9: 	Stops the watchdog timer 
@@ -26,5 +30,5 @@ USER INSTRUCTIONS:
 
 Overview:
 	The use of two timer vectors is being used to generate the PWM signal which is considered as a hardware implementation. One vector sets the signal to high on an interrupt 
-	and the other sets the signal to low on an interrupt. The SMCLK clock is being used with a divider of 8. The TACCR0 is used to help set the period and the TACCR1 is used to help set the duty cycle.
+	and the other sets the signal to low on an interrupt. The SMCLK clock is being used with a divider of 8. The TACCR0 is used to help set the period and the TACCR1 is used 	  to help set the duty cycle.
 	The capture compare interrupts are used to help generate the PWM signal to P1.6. 
