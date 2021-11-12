@@ -1,8 +1,12 @@
 
 PROJECT TITLE:                      Lab05 
+
 PURPOSE OF PROJECT:                 To generate a PWM signal at a period of 500ms and a duty cycle of 10%
+
 VERSION or DATE:                    11/10/2021
+
 AUTHORS:                            Nikolas Figueroa
+
 USER INSTRUCTIONS:                  
 
 	line 9: 	Stops the watchdog timer 
