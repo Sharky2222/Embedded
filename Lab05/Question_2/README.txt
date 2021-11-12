@@ -9,7 +9,7 @@ USER INSTRUCTIONS:
 	line 10:	Setting the configuration of the timer_A control register. TASSEL_2 selects the SMCLK clock which runs at 
 			1MHz. ID_3 divides the clock frequency by 8, so 1MHz / 8 = 125000Hz. MC_1 selects the up mode.
 	line 12:	Sets BIT6 or P1.6 to an output.
-	line 13:	Sets the primary peripheral module for P1.6 for P1SEL to allow PWM output.
+	line 13:	Selects TA0.1 output signal to allow PWM output.
 	line 14:	Clears the previous output.
 	line 16:	Sets the period or upper bound of the up signal. 
 	line 17:	Sets the duty cycle or the lower bound of the signal.
