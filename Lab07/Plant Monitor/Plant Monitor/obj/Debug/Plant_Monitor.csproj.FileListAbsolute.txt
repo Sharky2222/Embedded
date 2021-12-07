@@ -1,0 +1,10 @@
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.csproj.AssemblyReference.cache
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.Form1.resources
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.Properties.Resources.resources
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.csproj.GenerateResource.cache
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.csproj.CoreCompileInputs.cache
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\bin\Debug\Plant_Monitor.exe.config
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\bin\Debug\Plant_Monitor.exe
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\bin\Debug\Plant_Monitor.pdb
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.exe
+C:\Users\Nikol\source\repos\Plant Monitor\Plant Monitor\obj\Debug\Plant_Monitor.pdb
