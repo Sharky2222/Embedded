@@ -59,16 +59,16 @@ int main(void)
             ConfigureAdc_light();
             ADC10CTL0 |= ENC + ADC10SC +MSC;                   // Converter Enable, Sampling/conversion start
             while((ADC10CTL0 & ADC10IFG) == 0);                // check the Flag, while its low just wait
-            _delay_cycles(2000000);                            // delay for about 1 second to allow time to read data
+            _delay_cycles(15000000);                            // delay for about 1 second to allow time to read data
             light_Raw = ADC10MEM;                              // read the converted data into a variable
             ADC10CTL0 &= ~ADC10IFG;                            // clear the flag
             //itoa((light_Raw),result,10);                       // format the light_Raw data into a string to be read on console
 
 
-            if(light_Raw <= 250)  lightLevel = 3;                           //Dark out
-            else if(light_Raw >= 250 && light_Raw < 500) lightLevel = 2;    //Little Sun
-            else if(light_Raw >= 500 && light_Raw < 700 ) lightLevel = 1;   //Partly Sunny
-            else if(light_Raw >= 800) lightLevel = 0;                       //Sunny Day
+            if(light_Raw <= 250)  lightLevel = 0;                           //Dark out
+            else if(light_Raw >= 250 && light_Raw < 500) lightLevel = 1;    //Little Sun
+            else if(light_Raw >= 500 && light_Raw < 700 ) lightLevel = 2;   //Partly Sunny
+            else if(light_Raw >= 800) lightLevel = 3;                       //Sunny Day
 
             itoa((lightLevel),result,10);
             int acount =0;
@@ -90,7 +90,7 @@ int main(void)
             ConfigureAdc_water();
             ADC10CTL0 |= ENC + ADC10SC +MSC;       // Converter Enable, Sampling/conversion start
             while((ADC10CTL0 & ADC10IFG) == 0);    // check the Flag, while its low just wait
-            _delay_cycles(2000000);                // delay for about 1 second to allow time to read data
+            _delay_cycles(15000000);                // delay for about 1 second to allow time to read data
             water_Raw = ADC10MEM;                  // read the converted data into a variable
             ADC10CTL0 &= ~ADC10IFG;                // clear the flag
             //itoa((water_Raw),result,10);           // format the water_Raw data into a string to be read on console
@@ -121,7 +121,7 @@ int main(void)
             while((ADC10CTL0 & ADC10IFG) == 0);
             ADC10CTL0 &= ~ADC10IFG;
             BME280_Data bmeData = BME280_read();
-            _delay_cycles(2000000);
+            _delay_cycles(15000000);
             temperature = bmeData.cTemperatureFInt;
             int hundreds = temperature/100;
             int tens = temperature/10;
@@ -170,7 +170,7 @@ int main(void)
 
             while((ADC10CTL0 & ADC10IFG) == 0);
             BME280_Data bmeData = BME280_read();
-            _delay_cycles(2000000);
+            _delay_cycles(15000000);
             humidity = bmeData.cHumidityInt;
 
             int hundreds = humidity/100;
@@ -217,7 +217,7 @@ int main(void)
 
             while((ADC10CTL0 & ADC10IFG) == 0);
             BME280_Data bmeData = BME280_read();
-            _delay_cycles(2000000);
+            _delay_cycles(15000000);
             pressure = bmeData.cPressureInt/100;
             //printf("%d", pressure);
 
@@ -341,6 +341,7 @@ void itoa(int value, char* str, int base) {  //Function to convert the signed in
 }
 
 void port_init(){
+    P1OUT = 0x00;
     P1SEL |= BIT1 + BIT2;            // select non-GPIO  usage for Pins 1 and 2
     P1SEL2 |= BIT1 + BIT2;           // Select UART usage of Pins 1 and 2
 }
