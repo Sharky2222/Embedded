@@ -3,7 +3,9 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdlib.h>
 
+#include "SSD1306.h"
 #include "TI_USCI_I2C_master.h"
 #include "i2c.h"
 #include "BME280.h"
@@ -19,6 +21,15 @@ volatile long control = 0;               //Controls which ADC configurations to 
 
 char result[100];                        //Used for displaying UART to console
 
+char lightChar[10];
+char moistChar[10];
+char tempChar[10];
+char humidChar[10];
+char pressChar[10];
+
+#define ANUMBER     19052019
+#define MAX_COUNT   4.2e9
+
 void ConfigureAdc_water(void);
 void ConfigureAdc_light(void);
 
@@ -27,6 +38,7 @@ void ConfigClocks(void);
 void port_init();
 void strreverse(char* begin, char* end);
 void itoa(int value, char* str, int base);
+void display_startop(void);
 /**
  * main.c
  */
@@ -35,20 +47,22 @@ static volatile int TimeDelay; //this will state the delay value
 
 #define greenled BIT0
 int main(void)
-
 {
-
     int pressure = 0;
     int temperature = 0;
     int humidity = 0;
 
-    WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
+    WDTCTL = WDTPW | WDTHOLD;   // stop watchdog timer
 
     port_init();
     ConfigClocks();
     uart_init();
     i2c_init(0x77);
     BME280_init();
+    i2c_init(0x3C);
+    ssd1306_init();
+    ssd1306_clearDisplay();
+    display_startup();
 
     _delay_cycles(5);                    // Wait for ADC Ref to settle
 
@@ -82,6 +96,7 @@ int main(void)
             //lightLevel = lightLevel;   //for graphing
             UCA0TXBUF = 'l';
             P2OUT ^= BIT1;
+            sprintf(lightChar, "%d", lightLevel);
             control = 1;    //change the control variable to go to the next sensor
 
         }
@@ -112,12 +127,13 @@ int main(void)
             }
             //waterLevel = waterLevel;     //for graphing
             UCA0TXBUF = 'm';
+            sprintf(moistChar, "%d", waterLevel);
             control = 2;    //change the control variable to go to the previous sensor
         }
 
         else if(control == 2)//temp
         {
-
+            i2c_init(0x77);
             while((ADC10CTL0 & ADC10IFG) == 0);
             ADC10CTL0 &= ~ADC10IFG;
             BME280_Data bmeData = BME280_read();
@@ -158,7 +174,7 @@ int main(void)
 
             }
             UCA0TXBUF='t';
-
+            sprintf(tempChar, "%d", temperature);
 
 
             control = 3;
@@ -167,7 +183,7 @@ int main(void)
 
         else if(control == 3)//humidiity
         {
-
+            i2c_init(0x77);
             while((ADC10CTL0 & ADC10IFG) == 0);
             BME280_Data bmeData = BME280_read();
             _delay_cycles(15000000);
@@ -207,14 +223,14 @@ int main(void)
             }
             UCA0TXBUF='h';
 
-
+            sprintf(humidChar, "%d", humidity);
 
             control = 4;
         }
 
         else if(control == 4)//pressure
         {
-
+            i2c_init(0x77);
             while((ADC10CTL0 & ADC10IFG) == 0);
             BME280_Data bmeData = BME280_read();
             _delay_cycles(15000000);
@@ -235,31 +251,41 @@ int main(void)
                 UCA0TXBUF = result[acount++] ;                 //Transmit the received data.
 
             }
-            /*
             itoa((tens),result,10);
-
             acount =0;
             while(result[acount]!='\0')
             {
                 while((IFG2 & UCA0TXIFG)==0);                  //Wait Unitl the UART transmitter is ready
                 UCA0TXBUF = result[acount++] ;                 //Transmit the received data.
-
             }
             itoa((ones),result,10);
-
             acount =0;
             while(result[acount]!='\0')
             {
                 while((IFG2 & UCA0TXIFG)==0);                  //Wait Unitl the UART transmitter is ready
                 UCA0TXBUF = result[acount++] ;                 //Transmit the received data.
-
-            }*/
+            }
             UCA0TXBUF='p';
-
-
-
+            sprintf(pressChar, "%d", pressure);
             control = 0;
         }
+
+
+        //oled controls
+        i2c_init(0x3C);
+        ssd1306_clearDisplay();
+        ssd1306_printText(0, 1, "Garden Status");
+        ssd1306_printText(0, 2, "Light Level:");
+        ssd1306_printText(0, 3, "Soil Moisture:");
+        ssd1306_printText(0, 4, "Temperature (F):");
+        ssd1306_printText(0, 5, "Humidity (%):");
+        ssd1306_printText(0, 6, "Pressure (kPa):");
+
+        ssd1306_printText(100,2,lightChar);
+        ssd1306_printText(100,3,moistChar);
+        ssd1306_printText(100,4,tempChar);
+        ssd1306_printText(100,5,humidChar);
+        ssd1306_printText(100,6,pressChar);
 
     }
 
@@ -346,4 +372,12 @@ void port_init(){
     P1SEL2 |= BIT1 + BIT2;           // Select UART usage of Pins 1 and 2
 }
 
-
+void display_startup()
+{
+    ssd1306_printText(0, 1, "Garden Status");
+    ssd1306_printText(0, 2, "Light Level:");
+    ssd1306_printText(0, 3, "Soil Moisture:");
+    ssd1306_printText(0, 4, "Temperature (F):");
+    ssd1306_printText(0, 5, "Humidity (%):");
+    ssd1306_printText(0, 6, "Pressure (kPa):");
+}
