@@ -1,0 +1,1 @@
+"./BME280.obj" "./TI_USCI_I2C_master.obj" "./i2c.obj" "./main.obj" "./ssd1306.obj" "../lnk_msp430g2553.cmd" -llibc.a 
